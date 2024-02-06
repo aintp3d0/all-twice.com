@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# __author__ = 'kira@-築城院 真鍳'
+# __author__ = 'ames0k0'
 
-from os import listdir, getcwd, mkdir, chdir, remove #
-from bs4 import BeautifulSoup as bs #----------------#
-from tools import fastprint, termin, multi #---------#
-from random import randint, choice #-----------------#
-from shutil import rmtree #--------------------------#
-from os.path import exists, join, isdir #------------#
-from docs.body import end, blue, purple, options #---#
-from urllib.error import HTTPError #-----------------#
-from urllib.request import urlopen #-----------------#
+from os import listdir, getcwd, mkdir, chdir, remove
+from random import randint, choice
+from shutil import rmtree
+from os.path import exists, join, isdir
+from urllib.error import HTTPError
+from urllib.request import urlopen
+
+from bs4 import BeautifulSoup as bs
+from docs.config import end, blue, purple, options
+from tools import fastprint, termin, multi
 
 
 BASE_DIR = getcwd()
@@ -140,4 +141,7 @@ class Twice:
 
 if __name__ == '__main__':
     twi = Twice()
-    twi.main()
+    try:
+        twi.main()
+    except KeyboardInterrupt:
+        pass

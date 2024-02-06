@@ -5,3 +5,9 @@ Twice (Hangul: 트와이스; Japanese: トゥワイス) is a South Korean girl g
 !python3    twice.py        - download images
             about_twice.py  - twice bio
 ```
+
+### Dependencies
+```bash
+python3 -V	# Python 3.11.6
+feh -v		# 3.10.1
+```
