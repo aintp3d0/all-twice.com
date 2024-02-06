@@ -12,10 +12,11 @@ from urllib.request import urlopen
 
 from bs4 import BeautifulSoup as bs
 from docs.config import end, blue, purple, options
+from docs.config import STATIC_DIR_DAY
 from tools import fastprint, termin, multi
 
 
-BASE_DIR = getcwd()
+BASE_DIR = STATIC_DIR_DAY
 ACTIVE_DIR = None
 
 
@@ -23,13 +24,15 @@ def _indir(func):
     """Run function in the child folder
     """
     def wrapped(*args, **kwargs):
+        if not BASE_DIR.exists():
+            BASE_DIR.mkdir(parents=True, exist_ok=True)
+        chdir(BASE_DIR)
+
         if not exists(ACTIVE_DIR):
             mkdir(ACTIVE_DIR)
         chdir(ACTIVE_DIR)
 
         func(*args, **kwargs)
-
-        chdir(BASE_DIR)
     return wrapped
 
 
@@ -37,12 +40,6 @@ class Twice:
     """Simple crawler to download Images from website and Open it with *feh* programm
     """
     def __init__(self):
-        self.ignore = [
-            'twice.py', 'about_twice', 'README.md', 'twicelogo5.png',
-            'twice.png', '.git', 'requirements.txt', 'pics', 'docs',
-            '__pycache__'
-        ]
-        self.dirs = listdir(getcwd())
         self.base_url = 'http://all-twice.com/'
         self.photo_url = 'https://t1.daumcdn.net/'
         self.active_days = (1, 121)
@@ -76,8 +73,8 @@ class Twice:
         """Open photo with programm *feh*
         """
         seconds = self.get_seconds()
-        for item in listdir():
-            termin(seconds, join(BASE_DIR, join(ACTIVE_DIR, item)))
+        for file in BASE_DIR.cwd().iterdir():
+            termin(seconds, file)
 
 
     def _get_soup(self):
@@ -92,11 +89,11 @@ class Twice:
         """
         global ACTIVE_DIR
 
-        mid = [dir for dir in self.dirs if isdir(dir) and dir not in self.ignore]
+        mid = [dir.name for dir in BASE_DIR.iterdir()]
 
-        print(options.format(purple, blue, "::".join(mid[:6])))
+        print(options.format(purple, blue, ", ".join(mid[:6])))
 
-        uw = input('{}        :? {}'.format(purple,end))
+        uw = input('{}        :? {}'.format(purple, end))
         if uw == '1':
             ACTIVE_DIR = str(randint(*self.active_days))
             try:
