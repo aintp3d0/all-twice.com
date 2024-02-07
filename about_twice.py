@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# __author__ = 'kira@-築城院 真鍳'
+# __author__ = 'ames0k0'
 
-from os import system, chdir #------#
-from time import sleep #------------#
-from tools import fastprint, termin #
-from string import Template #-------#
-from docs.body import * #-----------#
-from collections import Counter #---#
+from os import system, chdir
+from time import sleep
+from tools import fastprint, termin
+from string import Template
+from docs.config import artists, bio, DISCOGRAPHY, SOURCES, STATIC_DIR_ABOUT
+from docs.config import purple, blue, end
+from collections import Counter
 
 
 pfmt = ('$purple', '$end', '$blue', '$end')
@@ -34,10 +35,11 @@ def main():
     """Print artists bio and pictures
     """
     try:
-        for each in artists:
-            fastprint(str(colored(bio % globals()[each], '0')))
+        for artist in artists.keys():
+            fastprint(str(colored(bio % artists[artist], '0')))
             sleep(1)
-            termin(3, each + '.jpg')
+            termin(3, artist + '.jpg')
+            break
 
         fastprint(colored(DISCOGRAPHY, '1'))
         sleep(1)
@@ -51,9 +53,15 @@ def main():
     except KeyboardInterrupt:
         exit(0)
 
-    system('reset') 
+    # system('reset')
 
 
 if __name__ == '__main__':
-    chdir('pics')
-    main()
+    if not STATIC_DIR_ABOUT.exists():
+        STATIC_DIR_ABOUT.mkdir(parents=True, exist_ok=True)
+    chdir(STATIC_DIR_ABOUT)
+
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass

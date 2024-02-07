@@ -88,7 +88,10 @@ TZUYU = (
     '170 cm (5’7″) / Approx. Real Height: 172 cm (5’8″)*', '48 kg (106 lbs)', 'A'
 )
 
-artists = [i for i in vars().keys() if not i.startswith('_') and i == i.upper()]
+artists = {
+    'JIHYO': JIHYO, 'NAYEON': NAYEON, 'JEONGYEON': JEONGYEON, 'MOMO': MOMO,
+    'SANA': SANA, 'MINA': MINA, 'DAHYUN': DAHYUN, 'CHAEYOUNG': CHAEYOUNG, 'TZUYU': TZUYU
+}
 
 DISCOGRAPHY = '''
                                                                {} DISCOGRAPHY

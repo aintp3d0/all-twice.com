@@ -21,13 +21,6 @@ ACTIVE_DIR = None
 TAB = '        '
 
 
-"""About directories (cwd)
-
-- (s1) Changing the directory to the new created `day` to download pictures
-- (s2) Changing the directory to the downloaded pictures `day` to view them
-"""
-
-
 def _indir(func):
     """Run function in the child folder
     """
@@ -146,8 +139,6 @@ class Twice:
 
 
 if __name__ == '__main__':
-    BASE_DIR = STATIC_DIR_DAY
-
     if not BASE_DIR.exists():
         BASE_DIR.mkdir(parents=True, exist_ok=True)
     chdir(BASE_DIR)
