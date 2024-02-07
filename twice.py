@@ -48,33 +48,35 @@ class Twice:
     def download_photo(self, soup):
         """Donwload photo from twice Days with multiprocessing
         """
-        photo = list()
+        # unique links only
+        photo = set()
 
         for each in soup.find_all('img'):
             each = each.get('src')
             if each.startswith(self.photo_url):
-                photo.append(each)
+                photo.add(each)
 
         try:
             multi(photo)
         except OSError:
             pass
+        # new line after download progress
+        print()
 
 
     def get_seconds(self):
         """Make seconds for function *termin*
         """
         try:
-            return int(input(f'{blue}{TAB}Seconds between Open and Close photo_:? {end}'))
+            return float(input(f'{blue}{TAB}Seconds between Open and Close photo_:? {end}'))
         except ValueError:
-            return 1
+            return 1.0
 
 
     @_indir
-    def open_photo(self):
+    def open_photo(self, seconds):
         """Open photo with programm *feh*
         """
-        seconds = self.get_seconds()
         for file in BASE_DIR.cwd().iterdir():
             termin(seconds, file)
 
@@ -103,11 +105,13 @@ class Twice:
                 fastprint(f'\n{blue}url >>> {self.base_url}{ACTIVE_DIR}{end}')
                 fastprint(f'{purple}올 트와이스닷컴 :: {soup.find("h2").text}{end}\n')
                 self.download_photo(soup)
-                self.open_photo()
+                seconds = self.get_seconds()
+                self.open_photo(seconds)
             except HTTPError:
                 print(f'{TAB}Day {ACTIVE_DIR} is not exists')
             except Exception as e:
-                print('{TAB}Error: ', e.args[0])
+                print(f'{TAB}Error: ', e.args[0])
+                raise e
 
         elif uw == '2':
             print(f'{blue}{TAB}[CTRL + C] to STOP{end}')
@@ -126,11 +130,13 @@ class Twice:
         if mid:
             if uw == '3':
                 ACTIVE_DIR = choice(mid)
-                self.open_photo()
+                self.open_photo(seconds)
             elif uw == '4':
+                seconds = self.get_seconds()
                 for day in mid:
                     ACTIVE_DIR = day
-                    self.open_photo()
+                    print(f"{TAB}Opening day: {day}")
+                    self.open_photo(seconds)
             elif uw == '5':
                 qu = input('{}{}Are you Sure [Y/n] :? {}'.format(purple, TAB, end)).upper()
                 if qu.startswith('Y'):
