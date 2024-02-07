@@ -5,7 +5,7 @@
 
 from pathlib import Path
 
-STATIC_DIR = Path('pics')
+STATIC_DIR = Path('pics').absolute()
 STATIC_DIR_DAY = STATIC_DIR / 'day'
 STATIC_DIR_ABOUT = STATIC_DIR / 'about'
 

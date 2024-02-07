@@ -20,19 +20,24 @@ BASE_DIR = STATIC_DIR_DAY
 ACTIVE_DIR = None
 
 
+"""About directories (cwd)
+
+- (s1) Changing the directory to the new created `day` to download pictures
+- (s2) Changing the directory to the downloaded pictures `day` to view them
+"""
+
+
 def _indir(func):
     """Run function in the child folder
     """
     def wrapped(*args, **kwargs):
-        if not BASE_DIR.exists():
-            BASE_DIR.mkdir(parents=True, exist_ok=True)
-        chdir(BASE_DIR)
-
         if not exists(ACTIVE_DIR):
             mkdir(ACTIVE_DIR)
         chdir(ACTIVE_DIR)
 
         func(*args, **kwargs)
+
+        chdir(BASE_DIR)
     return wrapped
 
 
@@ -137,6 +142,12 @@ class Twice:
 
 
 if __name__ == '__main__':
+    BASE_DIR = STATIC_DIR_DAY
+
+    if not BASE_DIR.exists():
+        BASE_DIR.mkdir(parents=True, exist_ok=True)
+    chdir(BASE_DIR)
+
     twi = Twice()
     try:
         twi.main()
