@@ -18,6 +18,7 @@ from tools import fastprint, termin, multi
 
 BASE_DIR = STATIC_DIR_DAY
 ACTIVE_DIR = None
+TAB = '        '
 
 
 """About directories (cwd)
@@ -61,14 +62,17 @@ class Twice:
             if each.startswith(self.photo_url):
                 photo.append(each)
 
-        multi(photo)
+        try:
+            multi(photo)
+        except OSError:
+            pass
 
 
     def get_seconds(self):
         """Make seconds for function *termin*
         """
         try:
-            return int(input(f'{blue}        Seconds between Open and Close photo_:? {end}'))
+            return int(input(f'{blue}{TAB}Seconds between Open and Close photo_:? {end}'))
         except ValueError:
             return 1
 
@@ -98,7 +102,7 @@ class Twice:
 
         print(options.format(purple, blue, ", ".join(mid[:6])))
 
-        uw = input('{}        :? {}'.format(purple, end))
+        uw = input('{}{}:? {}'.format(purple, TAB, end))
         if uw == '1':
             ACTIVE_DIR = str(randint(*self.active_days))
             try:
@@ -108,23 +112,23 @@ class Twice:
                 self.download_photo(soup)
                 self.open_photo()
             except HTTPError:
-                print(f'Day {ACTIVE_DIR} is not exists')
+                print(f'{TAB}Day {ACTIVE_DIR} is not exists')
             except Exception as e:
-                print('Error in line 110: ', e)
+                print('{TAB}Error: ', e.args[0])
 
         elif uw == '2':
-            print(f'{blue}        [CTRL + C] to STOP{end}')
+            print(f'{blue}{TAB}[CTRL + C] to STOP{end}')
             for day in range(*self.active_days):
                 ACTIVE_DIR = str(day)
                 try:
                     self.download_photo(self._get_soup())
-                    print(f'\n{purple}Day: {ACTIVE_DIR}{end}\n')
+                    print(f'\n{purple}{TAB}Day: {ACTIVE_DIR}{end}\n')
                 except KeyboardInterrupt:
                     exit(1)
                 except HTTPError:
-                    print(f'Day {ACTIVE_DIR} is not exists')
+                    print(f'{TAB}Day {ACTIVE_DIR} is not exists')
                 except Exception as e:
-                    print('Error in line 124: ', e)
+                    print('{TAB}Error: ', e.args[0])
 
         if mid:
             if uw == '3':
@@ -135,7 +139,7 @@ class Twice:
                     ACTIVE_DIR = day
                     self.open_photo()
             elif uw == '5':
-                qu = input('        {}Are you Sure [Y/n] :? {}'.format(purple, end)).upper()
+                qu = input('{}{}Are you Sure [Y/n] :? {}'.format(purple, TAB, end)).upper()
                 if qu.startswith('Y'):
                     for day in mid:
                         rmtree(day)
