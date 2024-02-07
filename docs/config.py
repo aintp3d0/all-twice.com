@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# __author__ = 'kira@-築城院 真鍳'
+# __author__ = 'ames0k0'
+
+from pathlib import Path
+
+STATIC_DIR = Path('pics').absolute()
+STATIC_DIR_DAY = STATIC_DIR / 'day'
+STATIC_DIR_ABOUT = STATIC_DIR / 'about'
 
 end = '\033[0m'
 blue = '\033[94m'
@@ -21,11 +27,11 @@ bio = """\n
 """
 
 options = """
-        {0}1) Download random Day and Open   == {1}~7...40pics
-        {1}2) Donwload all Days              == {0}120pages * ~7...40pics
-        {0}3) Open random Day from           == {1}{2}
-        {1}4) Open all Days from             == {0}{2}
-        {0}5) Clear all Days                 == {1}{2}\n
+        {0}1) Download random Day and Open   == {1}~7...40 pics
+        {1}2) Donwload all Days              == {0}120 pages * ~7...40 pics
+        {0}3) Open random Day from           == {1}[{2}]
+        {1}4) Open all Days from             == {0}[{2}]
+        {0}5) Clear all Days                 == {1}[{2}]\n
 """
 
 JIHYO = (
@@ -82,7 +88,10 @@ TZUYU = (
     '170 cm (5’7″) / Approx. Real Height: 172 cm (5’8″)*', '48 kg (106 lbs)', 'A'
 )
 
-artists = [i for i in vars().keys() if not i.startswith('_') and i == i.upper()]
+artists = {
+    'JIHYO': JIHYO, 'NAYEON': NAYEON, 'JEONGYEON': JEONGYEON, 'MOMO': MOMO,
+    'SANA': SANA, 'MINA': MINA, 'DAHYUN': DAHYUN, 'CHAEYOUNG': CHAEYOUNG, 'TZUYU': TZUYU
+}
 
 DISCOGRAPHY = '''
                                                                {} DISCOGRAPHY
