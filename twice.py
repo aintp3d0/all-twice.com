@@ -7,10 +7,12 @@ from os import listdir, getcwd, mkdir, chdir, remove
 from random import randint, choice
 from shutil import rmtree
 from os.path import exists, join, isdir
+from itertools import islice, cycle # batched
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
 from bs4 import BeautifulSoup as bs
+
 from docs.config import end, blue, purple, options
 from docs.config import STATIC_DIR_DAY
 from tools import fastprint, termin, multi
@@ -19,6 +21,7 @@ from tools import fastprint, termin, multi
 BASE_DIR = STATIC_DIR_DAY
 ACTIVE_DIR = None
 TAB = '        '
+DAYS_VIEW_CHUNK = 20
 
 
 def _indir(func):
@@ -33,6 +36,12 @@ def _indir(func):
 
         chdir(BASE_DIR)
     return wrapped
+
+
+def batched(iterable, n):
+    it = iter(iterable)
+    while batch := tuple(islice(it, n)):
+        yield batch
 
 
 class Twice:
@@ -132,7 +141,23 @@ class Twice:
 
         if mid:
             if uw == '3':
-                ACTIVE_DIR = choice(mid)
+                print()
+                colors = cycle((purple, blue))
+                for days in batched(mid, DAYS_VIEW_CHUNK):
+                    row = ', '.join(days)
+                    color = next(colors)
+                    print(f"{color}{TAB}{row}{end}")
+                print()
+
+                sp_day = input(
+                    '{}{}Set a specific day (<blank> as random): {}'.format(purple, TAB, end)
+                ).strip()
+                if not sp_day or sp_day not in mid:
+                    ACTIVE_DIR = choice(mid)
+                else:
+                    ACTIVE_DIR = sp_day
+
+                seconds = self.get_seconds()
                 self.open_photo(seconds)
             elif uw == '4':
                 seconds = self.get_seconds()
