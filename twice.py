@@ -88,15 +88,13 @@ class Twice:
         return bs(url,'lxml')
 
 
-    def download_day_photos(self, seconds):
+    def download_day_photos(self):
         print(f'\n{purple}{TAB}Day: {ACTIVE_DIR}{end}\n')
         try:
             soup = self._get_soup()
             fastprint(f'\n{blue}url >>> {self.base_url}{ACTIVE_DIR}{end}')
             fastprint(f'{purple}올 트와이스닷컴 :: {soup.find("h2").text}{end}\n')
             self.download_photo(soup)
-            seconds = self.get_seconds()
-            self.open_photo(seconds)
         except HTTPError:
             print(f'{TAB}Day {ACTIVE_DIR} is not exists')
         except Exception as e:
@@ -114,8 +112,17 @@ class Twice:
 
         uw = input('{}{}:? {}'.format(purple, TAB, end))
         if uw == '1':
-            ACTIVE_DIR = str(randint(*self.active_days))
+            sp_day = input(
+                '{}{}Set a specific day (<blank> as random): {}'.format(purple, TAB, end)
+            ).strip()
+            if not sp_day or not sp_day.isdigit():
+                ACTIVE_DIR = str(randint(*self.active_days))
+            else:
+                ACTIVE_DIR = sp_day
+
             self.download_day_photos()
+            seconds = self.get_seconds()
+            self.open_photo(seconds)
 
         elif uw == '2':
             print(f'{blue}{TAB}[CTRL + C] to STOP{end}')
