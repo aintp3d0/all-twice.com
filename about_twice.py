@@ -5,11 +5,13 @@
 
 from os import chdir
 from time import sleep
-from tools import fastprint, termin
 from string import Template
+from collections import Counter
+
 from docs.config import artists, bio, DISCOGRAPHY, SOURCES, STATIC_DIR_ABOUT
 from docs.config import purple, blue, end
-from collections import Counter
+
+from tools import fastprint, termin, reset_terminal
 
 
 pfmt = ('$purple', '$end', '$blue', '$end')
@@ -47,8 +49,6 @@ def main():
     fastprint(colored(SOURCES, '0'))
     # to read info
     sleep(3)
-    # https://stackoverflow.com/questions/
-    # 17682934/linux-terminal-typing-feedback-gone-line-breaks-not-displayed
 
 
 if __name__ == '__main__':
@@ -60,3 +60,5 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         pass
+
+    reset_terminal()

@@ -15,3 +15,6 @@ feh -v		# 3.10.1
 ### NOTES
 Used an application (program) `feh` to view images
 - Update `DEFAULT_IMAGE_VIEWER` at `docs/config.py` to your application (program)
+
+### Demo
+![](./docs/readme/all-twice.mp4)

@@ -4,6 +4,7 @@
 # __author__ = 'ames0k0'
 
 import sys
+from os import system
 from time import sleep
 from wget import download
 from subprocess import Popen
@@ -38,3 +39,9 @@ def termin(sec, photo):
     sleep(sec)
     viewer.terminate()
     viewer.kill()
+
+
+def reset_terminal():
+    # https://stackoverflow.com/questions/
+    # 17682934/linux-terminal-typing-feedback-gone-line-breaks-not-displayed
+    system('reset')

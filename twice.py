@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup as bs
 
 from docs.config import end, blue, purple, options
 from docs.config import STATIC_DIR_DAY
-from tools import fastprint, termin, multi
+from tools import fastprint, termin, multi, reset_terminal
 
 
 BASE_DIR = STATIC_DIR_DAY
@@ -147,6 +147,7 @@ class Twice:
             self.download_day_photos()
             seconds = self.get_seconds()
             self.open_photo(seconds, purple)
+            reset_terminal()
             exit()
 
         if uw == '2':
@@ -177,6 +178,7 @@ class Twice:
                     ACTIVE_DIR = day
                     color = next(colors)
                     self.open_photo(seconds, color)
+                reset_terminal()
                 exit()
             elif sp_day == 'r':
                 ACTIVE_DIR = choice(mid)
@@ -184,6 +186,7 @@ class Twice:
                 ACTIVE_DIR = sp_day
 
             self.open_photo(seconds, purple)
+            reset_terminal()
 
         elif uw == '3':
             qu = input('{}{}Are you Sure [Y/n] :? {}'.format(purple, TAB, end)).upper()
