@@ -45,7 +45,9 @@ def batched(iterable, n):
 
 
 class Twice:
-    """Simple crawler to download Images from website and Open it with *feh* programm
+    """Simple crawler to download Images from website
+
+    and Open it with *DEFAULT_IMAGE_VIEWER* programm
     """
     def __init__(self):
         self.base_url = 'http://all-twice.com/'
@@ -84,7 +86,7 @@ class Twice:
 
     @_indir
     def open_photo(self, seconds):
-        """Open photo with programm *feh*
+        """Open photo with programm *DEFAULT_IMAGE_VIEWER*
         """
         for file in BASE_DIR.cwd().iterdir():
             termin(seconds, file)

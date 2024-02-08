@@ -9,6 +9,10 @@ STATIC_DIR = Path('pics').absolute()
 STATIC_DIR_DAY = STATIC_DIR / 'day'
 STATIC_DIR_ABOUT = STATIC_DIR / 'about'
 
+
+DEFAULT_IMAGE_VIEWER = 'feh'
+
+
 end = '\033[0m'
 blue = '\033[94m'
 purple = '\033[35m'
