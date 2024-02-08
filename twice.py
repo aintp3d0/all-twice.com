@@ -88,6 +88,21 @@ class Twice:
         return bs(url,'lxml')
 
 
+    def download_day_photos(self, seconds):
+        print(f'\n{purple}{TAB}Day: {ACTIVE_DIR}{end}\n')
+        try:
+            soup = self._get_soup()
+            fastprint(f'\n{blue}url >>> {self.base_url}{ACTIVE_DIR}{end}')
+            fastprint(f'{purple}올 트와이스닷컴 :: {soup.find("h2").text}{end}\n')
+            self.download_photo(soup)
+            seconds = self.get_seconds()
+            self.open_photo(seconds)
+        except HTTPError:
+            print(f'{TAB}Day {ACTIVE_DIR} is not exists')
+        except Exception as e:
+            print(f'{TAB}Error: ', e.args[0])
+
+
     def main(self):
         """Let user call functions
         """
@@ -100,32 +115,13 @@ class Twice:
         uw = input('{}{}:? {}'.format(purple, TAB, end))
         if uw == '1':
             ACTIVE_DIR = str(randint(*self.active_days))
-            try:
-                soup = self._get_soup()
-                fastprint(f'\n{blue}url >>> {self.base_url}{ACTIVE_DIR}{end}')
-                fastprint(f'{purple}올 트와이스닷컴 :: {soup.find("h2").text}{end}\n')
-                self.download_photo(soup)
-                seconds = self.get_seconds()
-                self.open_photo(seconds)
-            except HTTPError:
-                print(f'{TAB}Day {ACTIVE_DIR} is not exists')
-            except Exception as e:
-                print(f'{TAB}Error: ', e.args[0])
-                raise e
+            self.download_day_photos()
 
         elif uw == '2':
             print(f'{blue}{TAB}[CTRL + C] to STOP{end}')
             for day in range(*self.active_days):
                 ACTIVE_DIR = str(day)
-                try:
-                    self.download_photo(self._get_soup())
-                    print(f'\n{purple}{TAB}Day: {ACTIVE_DIR}{end}\n')
-                except KeyboardInterrupt:
-                    exit(1)
-                except HTTPError:
-                    print(f'{TAB}Day {ACTIVE_DIR} is not exists')
-                except Exception as e:
-                    print('{TAB}Error: ', e.args[0])
+                self.download_day_photos()
 
         if mid:
             if uw == '3':
