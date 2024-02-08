@@ -85,9 +85,10 @@ class Twice:
 
 
     @_indir
-    def open_photo(self, seconds):
+    def open_photo(self, seconds, color):
         """Open photo with programm *DEFAULT_IMAGE_VIEWER*
         """
+        print(f"{color}{TAB}Opening day: {ACTIVE_DIR}{end}")
         for file in BASE_DIR.cwd().iterdir():
             termin(seconds, file)
 
@@ -100,14 +101,14 @@ class Twice:
 
 
     def download_day_photos(self):
-        print(f'\n{purple}{TAB}Day: {ACTIVE_DIR}{end}\n')
+        print(f'{purple}{TAB}Day: {ACTIVE_DIR}{end}\n')
         try:
             soup = self._get_soup()
             fastprint(f'\n{blue}url >>> {self.base_url}{ACTIVE_DIR}{end}')
             fastprint(f'{purple}올 트와이스닷컴 :: {soup.find("h2").text}{end}\n')
             self.download_photo(soup)
         except HTTPError:
-            print(f'{TAB}Day {ACTIVE_DIR} is not exists')
+            print(f'{TAB}{blue}Day: {ACTIVE_DIR} does not exists{end}')
         except Exception as e:
             print(f'{TAB}Error: ', e.args[0])
 
@@ -123,55 +124,72 @@ class Twice:
 
         uw = input('{}{}:? {}'.format(purple, TAB, end))
         if uw == '1':
-            sp_day = input(
-                '{}{}Set a specific day (<blank> as random): {}'.format(purple, TAB, end)
-            ).strip()
-            if not sp_day or not sp_day.isdigit():
+            while True:
+                sp_day = input(
+                    '{}{}Set a day number or `r`, `a`: {}'.format(purple, TAB, end)
+                ).strip()
+                if sp_day in ('r', 'a'):
+                    break
+                if sp_day.isdigit():
+                    break
+            if sp_day == 'a':
+                print(f'\n{blue}{TAB}[CTRL + C] to STOP{end}')
+                for day in range(*self.active_days):
+                    ACTIVE_DIR = str(day)
+                    self.download_day_photos()
+                exit()
+
+            elif sp_day == 'r':
                 ACTIVE_DIR = str(randint(*self.active_days))
-            else:
+            elif sp_day.isdigit():
                 ACTIVE_DIR = sp_day
 
             self.download_day_photos()
             seconds = self.get_seconds()
-            self.open_photo(seconds)
+            self.open_photo(seconds, purple)
+            exit()
 
-        elif uw == '2':
-            print(f'{blue}{TAB}[CTRL + C] to STOP{end}')
-            for day in range(*self.active_days):
-                ACTIVE_DIR = str(day)
-                self.download_day_photos()
+        if uw == '2':
+            if not mid:
+                exit()
+            print()
+            colors = cycle((purple, blue))
+            for days in batched(mid, DAYS_VIEW_CHUNK):
+                row = ', '.join(days)
+                color = next(colors)
+                print(f"{color}{TAB}{row}{end}")
+            print()
 
-        if mid:
-            if uw == '3':
-                print()
-                colors = cycle((purple, blue))
-                for days in batched(mid, DAYS_VIEW_CHUNK):
-                    row = ', '.join(days)
-                    color = next(colors)
-                    print(f"{color}{TAB}{row}{end}")
-                print()
-
+            while True:
                 sp_day = input(
-                    '{}{}Set a specific day (<blank> as random): {}'.format(purple, TAB, end)
+                    '{}{}Set a day number or `r`, `a`: {}'.format(purple, TAB, end)
                 ).strip()
-                if not sp_day or sp_day not in mid:
-                    ACTIVE_DIR = choice(mid)
-                else:
-                    ACTIVE_DIR = sp_day
+                if sp_day in ('r', 'a'):
+                    break
+                if sp_day.isdigit():
+                    break
 
-                seconds = self.get_seconds()
-                self.open_photo(seconds)
-            elif uw == '4':
-                seconds = self.get_seconds()
+            seconds = self.get_seconds()
+
+            if sp_day == 'a':
+                colors = cycle((purple, blue))
                 for day in mid:
                     ACTIVE_DIR = day
-                    print(f"{TAB}Opening day: {day}")
-                    self.open_photo(seconds)
-            elif uw == '5':
-                qu = input('{}{}Are you Sure [Y/n] :? {}'.format(purple, TAB, end)).upper()
-                if qu.startswith('Y'):
-                    for day in mid:
-                        rmtree(day)
+                    color = next(colors)
+                    self.open_photo(seconds, color)
+                exit()
+            elif sp_day == 'r':
+                ACTIVE_DIR = choice(mid)
+            elif sp_day.isdigit():
+                ACTIVE_DIR = sp_day
+
+            self.open_photo(seconds, purple)
+
+        elif uw == '3':
+            qu = input('{}{}Are you Sure [Y/n] :? {}'.format(purple, TAB, end)).upper()
+            if qu.startswith('Y'):
+                for day in mid:
+                    rmtree(day)
 
 
 if __name__ == '__main__':

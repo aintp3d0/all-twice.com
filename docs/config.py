@@ -31,11 +31,9 @@ bio = """\n
 """
 
 options = """
-        {0}1) Download specific/random Day and Open     == {1}~7...40 pics
-        {1}2) Donwload all Days                         == {0}120 pages * ~7...40 pics
-        {0}3) Open specific/random Day from             == {1}[{2}]
-        {1}4) Open all Days from                        == {0}[{2}]
-        {0}5) Clear all Days                            == {1}[{2}]\n
+        {0}1) Download  [a]ll/specific/[r]andom Day and Open    == {1}120 days * ~7...40 pics
+        {0}2) Open      [a]ll/specific/[r]andom Day from        == {0}[{2}]
+        {0}3) Delete all Days                                   == {1}[{2}]\n
 """
 
 JIHYO = (
