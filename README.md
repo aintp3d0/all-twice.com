@@ -14,5 +14,4 @@ feh -v		# 3.10.1
 
 ### NOTES
 Used an application (program) `feh` to view images
-Can be replaced by editing config file `docs/config.py`
-updated variable `DEFAULT_IMAGE_VIEWER`
+- Update `DEFAULT_IMAGE_VIEWER` at `docs/config.py` to your application (program)
