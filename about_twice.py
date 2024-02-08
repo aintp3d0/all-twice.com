@@ -3,7 +3,7 @@
 
 # __author__ = 'ames0k0'
 
-from os import system, chdir
+from os import chdir
 from time import sleep
 from tools import fastprint, termin
 from string import Template
@@ -34,26 +34,21 @@ def colored(task: str, col) -> str:
 def main():
     """Print artists bio and pictures
     """
-    try:
-        for artist in artists.keys():
-            fastprint(str(colored(bio % artists[artist], '0')))
-            sleep(1)
-            termin(3, artist + '.jpg')
-            break
-
-        fastprint(colored(DISCOGRAPHY, '1'))
+    for artist in artists.keys():
+        fastprint(str(colored(bio % artists[artist], '0')))
         sleep(1)
-        termin(3, 'TWICE.jpg')
+        termin(3, artist + '.jpg')
+        break
 
-        fastprint(colored(SOURCES, '0'))
-        # to read info
-        sleep(3)
-        # https://stackoverflow.com/questions/
-        # 17682934/linux-terminal-typing-feedback-gone-line-breaks-not-displayed
-    except KeyboardInterrupt:
-        exit(0)
+    fastprint(colored(DISCOGRAPHY, '1'))
+    sleep(1)
+    termin(3, 'TWICE.jpg')
 
-    # system('reset')
+    fastprint(colored(SOURCES, '0'))
+    # to read info
+    sleep(3)
+    # https://stackoverflow.com/questions/
+    # 17682934/linux-terminal-typing-feedback-gone-line-breaks-not-displayed
 
 
 if __name__ == '__main__':
